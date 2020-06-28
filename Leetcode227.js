@@ -1,0 +1,36 @@
+var calculate = function(s) {
+  //tanýmlanan uzunluðu 0’a döndür.
+      if(!s  !s.length) return 0;
+      s = s.trim();
+      let stack = [];
+  //numarasýnýn 0 olmasýna izin ver ve iþareti pozitif olsun.
+      let num = 0, sign = '+';
+  // i = 0’dýr. Ve i, s’ nin uzunluðundan küçükse i’yi 1 arttýr.
+      for(let i = 0; i < s.length; i++) {
+          if(s[i] === ' ') continue;
+          if(!isNaN(s[i])) num = num * 10 + s[i].charCodeAt(0) - '0'.charCodeAt(0);
+          if(isNaN(s[i])  i === s.length - 1) {
+              switch(sign) {
+                 // durumu + ve ekleyip bitir.
+                  case '+':
+                      stack.push(num);
+                      break;
+                  // durumu - ve ekleyip bitir.
+                  case '-':
+                      stack.push(-num);
+                      break;
+
+                  case '*':
+                      stack.push(stack.pop() * num);
+                      break;
+
+                  case '/':
+                      stack.push(parseInt(stack.pop() / num, 10));
+                      break;
+              }
+              sign = s[i];
+              num = 0;
+          }
+      }
+      return stack.reduce((a, b) => a + b);
+  };
